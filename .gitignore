@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*~
+
+# Cluster/runtime output
+slurm-*.out
+*.log
+*.traj
+
+# Large generated scientific data
+*.h5
+*.npy
+*.vtk
+*.xplor
+*.zip
+
+# Local scratch and generated results
+scratch/
+results/
