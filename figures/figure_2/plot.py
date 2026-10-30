@@ -316,7 +316,7 @@ MODELS = (
         "fit": "LiTiOF_avg_PDF_model.txt",
         "color": "#7A4EAB",
         "linestyle": "-",
-        "rwp": 19.73,
+        "rwp": 18.87,
     },
     {
         "label": "Occupancy",
