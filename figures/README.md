@@ -45,7 +45,7 @@ The data folder includes the schematic, three PDF fit tables, experimental ΔPDF
 
 Eleven [100] scattering surfaces at λ = 0, 0.1, …, 1 for J1 + J2 = 0.2 eV and 1000 K, with local-environment distributions at λ = 0, 0.5, 1.
 
-The data folder contains `scattering_lambda_*.txt`, `local_environment_counts.csv`, and all eleven `structure_lambda_*.cif` crystal structures, matched by λ. The CIFs are the exact final snapshot 99 files identified by the local-environment analysis. Each scattering panel selects h = 0 and 0 ≤ k,l ≤ 2 and is independently normalized at the 99.5th percentile. The reference curves use a normal approximation to the fixed-composition random fractions in the CSV. The input workflow calls the transition-metal species Fe; the figure labels it M.
+The data folder contains `scattering_lambda_*.txt`, `local_environment_counts.csv`, and all eleven `structure_lambda_*.cif` crystal structures, matched by λ. The CIFs are the exact final snapshot 99 files identified by the local-environment analysis. All Figure 3 data use J1 + J2 = 0.2 eV; the environment-count CSV contains only this total strength. Numbers in the `lambda_*` filenames denote the mixing fraction λ = J2/(J1 + J2), rather than the total interaction strength. Each scattering panel selects h = 0 and 0 ≤ k,l ≤ 2 and is independently normalized at the 99.5th percentile. The reference curves use a normal approximation to the fixed-composition random fractions in the CSV. The input workflow calls the transition-metal species Fe; the figure labels it M.
 
 ## Figure 4
 
