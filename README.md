@@ -9,43 +9,20 @@ The four main article figures are documented in [figures/](figures/README.md). E
 - [Figure 3: interaction mixing sweep](figures/figure_3/)
 - [Figure 4: 0-TM ensemble populations](figures/figure_4/)
 
-## Scripts
+## Calculation examples
 
-- `scripts/build_mc_structure.py` reproduces the Run 71 fixed-composition
-  Li/Ti occupational Monte Carlo and displacement model.
-- `scripts/run_mc_example.py` provides an example parameter set using reduced
-  nearest- and second-neighbor Ti–Ti interactions.
-- `scripts/plot_0tm_connectivity.py` compares the resulting 0-TM population
-  and connectivity with fixed-composition random disorder.
-- `scripts/plot_lifeo2_scattering_sweep.py` plots the eleven diffuse-scattering
-  surfaces across a LiFeO2 nearest/next-nearest-neighbor mixing sweep.
-- `scripts/analyze_warren_cowley.py` calculates the first six cation-shell
-  Warren-Cowley parameters and the combinations used in the paper.
-- `scripts/analyze_lifeo2_local_environments.py` counts tetrahedral,
-  O-centered octahedral, and cubic Li/Fe environments against an exact
-  fixed-composition random reference.
-
-The paper's `kBT = 5` analysis uses the unnormalized `J1 + J2 = 0.2 eV`
-sweep. Its `kBT = 1` analysis uses the coordination-normalized `A = 1 eV`
-sweep. The analysis scripts default to the 0.2 eV paper case and accept
-`--total 1` or `--totals 1`
-for the second case. They operate on existing sweep output, so the equivalent
-Monte Carlo driver is not duplicated here.
-
-For example:
+The [scripts/](scripts/README.md) directory contains calculation-only examples for occupational Monte Carlo and displacements, Warren–Cowley parameters, local-environment counts, and 0-TM populations and connectivity. They accept structure files directly and export numerical CSV tables or atomic structures.
 
 ```bash
-python scripts/run_mc_example.py --output-dir mc_example_output
-python scripts/plot_0tm_connectivity.py \
-  mc_example_output/rocks_mc_example_mc_occupations.extxyz \
-  --output-stem mc_example_output/0tm_connectivity
-
-python scripts/plot_lifeo2_scattering_sweep.py /path/to/sweep
-python scripts/analyze_warren_cowley.py /path/to/sweep
-python scripts/analyze_lifeo2_local_environments.py /path/to/sweep
-
-# Coordination-normalized A = 1 eV (paper kBT = 1 case)
-python scripts/plot_lifeo2_scattering_sweep.py /path/to/strength_map --totals 1
-python scripts/analyze_warren_cowley.py /path/to/strength_map --total 1
-python scripts/analyze_lifeo2_local_environments.py /path/to/strength_map --totals 1
+python -m pip install -r scripts/requirements.txt
+python scripts/run_mc_example.py --output-dir results/run71_example
+python scripts/analyze_warren_cowley.py \
+  figures/figure_3/data/structure_lambda_*.cif --output results/warren_cowley.csv
+python scripts/analyze_lifeo2_local_environments.py \
+  figures/figure_3/data/structure_lambda_*.cif --output results/local_environment_counts.csv
+python scripts/analyze_0tm_connectivity.py \
+  figures/figure_4/data/model_configurations.extxyz.gz \
+  --random-samples 100 --output-dir results/0tm_example
 ```
+
+Run 71 uses reduced pair coefficients J1/(kBT) = −0.5 and J2/(kBT) = +0.5. The separate Figure 3 sweep was generated at 1000 K with J1 + J2 = 0.20 eV, equivalent to a reduced total interaction of 2.3209036. See the [calculation guide](scripts/README.md) for definitions, input assumptions, and output columns.

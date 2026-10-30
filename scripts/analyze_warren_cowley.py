@@ -1,29 +1,84 @@
 #!/usr/bin/env python3
-"""Calculate shell-resolved Warren-Cowley parameters for a LiFeO2 sweep."""
+"""Calculate the first six Warren-Cowley parameters for equiatomic Li/Fe structures.
+
+At c_Li = c_Fe = 1/2, alpha_s = <sigma_i sigma_j>_s, with sigma=+1
+for Li and -1 for Fe. Shell vectors are expressed in units of a/2.
+"""
 
 from __future__ import annotations
 
 import argparse
 import csv
 import math
-import re
 from pathlib import Path
 
 import numpy as np
+from ase import Atoms
+from ase.io import read
+from ase.io.cif import parse_cif
 
-
-RESULT_RE = re.compile(
-    r"results_lifeo2_(unnorm|norm)_total_([^_]+)_ratio_([^_]+)_temp_[^/]+$"
-)
 SHELL_SQUARED_DISTANCES = (2, 4, 6, 8, 10, 12)
 
 
-def decode_number(token: str) -> float:
-    return float(token.replace("p", "."))
+def read_structure(path: Path, frame: int = 0):
+    """Read an explicit P1 CIF atom list or a frame from extended XYZ."""
+    if path.suffix.lower() != ".cif":
+        return read(path, index=frame)
+    if frame != 0:
+        raise ValueError("Use frame 0 for a single-structure CIF.")
+    block = next(parse_cif(str(path)))
+    operations = block.get(
+        "_space_group_symop_operation_xyz",
+        block.get("_symmetry_equiv_pos_as_xyz", ["x,y,z"]),
+    )
+    if isinstance(operations, str):
+        operations = [operations]
+    number = block.get(
+        "_space_group_it_number", block.get("_symmetry_int_tables_number", 1)
+    )
+    if int(number) != 1 or any(op.replace(" ", "") != "x,y,z" for op in operations):
+        raise ValueError(
+            "Provide an explicit P1 supercell CIF without symmetry expansion."
+        )
+    if not np.allclose(block.get("_atom_site_occupancy", 1), 1):
+        raise ValueError(
+            "Cation occupations must be explicit, with unit site occupancy."
+        )
+    positions = np.column_stack([block[f"_atom_site_fract_{axis}"] for axis in "xyz"])
+    return Atoms(
+        symbols=block.get_symbols(),
+        scaled_positions=positions,
+        cell=block.get_cell(),
+        pbc=True,
+    )
 
 
-def encode_number(value: float) -> str:
-    return f"{value:g}".replace(".", "p")
+def read_cation_configuration(path: Path) -> tuple[np.ndarray, np.ndarray, int]:
+    """Read ideal Li/Fe sites on the FCC lattice, in units of a/2."""
+    atoms = read_structure(path)
+    symbols = np.asarray(atoms.get_chemical_symbols())
+    if not set(symbols).issubset({"Li", "Fe", "O"}) or not atoms.pbc.all():
+        raise ValueError(f"Expected a periodic Li/Fe/O structure: {path}")
+    mask = np.isin(symbols, ["Li", "Fe"])
+    n_cations = int(mask.sum())
+    nrep = round((n_cations / 4) ** (1 / 3))
+    if nrep < 2 or n_cations != 4 * nrep**3:
+        raise ValueError(f"Expected 4*nrep^3 cation sites with nrep >= 2: {path}")
+    if not np.allclose(atoms.cell.array, np.eye(3) * atoms.cell[0, 0]):
+        raise ValueError(f"Expected an axis-aligned cubic cell: {path}")
+    period = 2 * nrep
+    fractional = atoms.get_scaled_positions()[mask] * period
+    if not np.allclose(fractional, np.rint(fractional), atol=1e-5, rtol=0):
+        raise ValueError(f"Cations must lie on ideal rocksalt lattice sites: {path}")
+    coordinates = np.rint(fractional).astype(int) % period
+    if len(np.unique(coordinates, axis=0)) != n_cations or np.any(
+        coordinates.sum(axis=1) % 2 != 1
+    ):
+        raise ValueError(
+            f"Cation sites are incomplete or do not match the FCC basis: {path}"
+        )
+    spins = np.where(symbols[mask] == "Li", 1, -1).astype(np.int8)
+    return coordinates, spins, period
 
 
 def shell_vectors(squared_distance: int) -> np.ndarray:
@@ -38,33 +93,10 @@ def shell_vectors(squared_distance: int) -> np.ndarray:
     return np.asarray(vectors, dtype=int)
 
 
-def read_cation_configuration(path: Path) -> tuple[np.ndarray, np.ndarray, int]:
-    fractional_coordinates = []
-    spins = []
-    with path.open() as handle:
-        for line in handle:
-            fields = line.split()
-            if not fields or fields[0] not in {"Li", "Fe"}:
-                continue
-            fractional_coordinates.append(tuple(map(float, fields[3:6])))
-            spins.append(1 if fields[0] == "Li" else -1)
-
-    n_cations = len(fractional_coordinates)
-    nrep = round((n_cations / 4.0) ** (1.0 / 3.0))
-    if n_cations != 4 * nrep**3:
-        raise ValueError(f"Expected 4*nrep^3 cations in {path}, found {n_cations}")
-
-    period = 2 * nrep
-    coordinates = np.rint(
-        np.asarray(fractional_coordinates, dtype=float) * period
-    ).astype(int) % period
-    if len(np.unique(coordinates, axis=0)) != n_cations:
-        raise ValueError(f"Duplicate cation lattice coordinates found in {path}")
-    return coordinates, np.asarray(spins, dtype=np.int8), period
-
-
 def calculate_alphas(path: Path) -> list[float]:
     coordinates, spins, period = read_cation_configuration(path)
+    if np.count_nonzero(spins == 1) * 2 != len(spins):
+        raise ValueError("This spin-correlation expression requires equiatomic Li/Fe.")
     lattice = np.zeros((period, period, period), dtype=np.int8)
     lattice[tuple(coordinates.T)] = spins
 
@@ -73,77 +105,44 @@ def calculate_alphas(path: Path) -> list[float]:
         correlations = []
         for vector in shell_vectors(squared_distance):
             neighbor_coordinates = (coordinates + vector) % period
-            correlations.append(
-                np.mean(spins * lattice[tuple(neighbor_coordinates.T)])
-            )
+            correlations.append(np.mean(spins * lattice[tuple(neighbor_coordinates.T)]))
         alphas.append(float(np.mean(correlations)))
     return alphas
 
 
-def result_parameters(path: Path) -> tuple[str, float, float]:
-    result_dir = path.parents[1].name
-    match = RESULT_RE.match(result_dir)
-    if not match:
-        raise ValueError(f"Could not parse sweep parameters from {result_dir}")
-    return match.group(1), decode_number(match.group(2)), decode_number(match.group(3))
-
-
-def find_inputs(root: Path, total: float, snapshot: int) -> list[Path]:
-    pattern = (
-        "*/results_lifeo2_*_total_*_ratio_*_temp_*/scatty_structures/"
-        f"rocks_lifeo2_pair_mc_atoms_{snapshot:02d}.cif"
-    )
-    inputs = [
-        path
-        for path in root.glob(pattern)
-        if math.isclose(result_parameters(path)[1], total)
-    ]
-    inputs.sort(key=lambda path: result_parameters(path)[2])
-    if len(inputs) != 11:
-        raise RuntimeError(
-            f"Expected 11 structures for total strength {total:g} eV, found {len(inputs)}"
-        )
-    return inputs
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("root", type=Path, help="root directory containing the sweep runs")
     parser.add_argument(
-        "--total",
-        type=float,
-        default=0.2,
-        help="total J1+J2 interaction strength in eV (default: 1)",
+        "structures",
+        nargs="+",
+        type=Path,
+        help="Ideal Li/Fe CIF or extended-XYZ files.",
     )
-    parser.add_argument("--snapshot", type=int, default=99)
-    parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--output", type=Path, default=Path("results/warren_cowley.csv")
+    )
     args = parser.parse_args()
-
-    output = args.output or args.root / (
-        f"warren_cowley_{encode_number(args.total)}eV.csv"
-    )
     rows = []
-    for path in find_inputs(args.root, args.total, args.snapshot):
+    for path in args.structures:
         alphas = calculate_alphas(path)
-        row = {
-            "series": result_parameters(path)[0],
-            "mixing_ratio": result_parameters(path)[2],
-            **{f"alpha_{index}": alpha for index, alpha in enumerate(alphas, 1)},
-            "1+3alpha_1": 1 + 3 * alphas[0],
-            "1+4alpha_1+alpha_2": 1 + 4 * alphas[0] + alphas[1],
-            "1+3alpha_2+3alpha_4+alpha_6": (
-                1 + 3 * alphas[1] + 3 * alphas[3] + alphas[5]
-            ),
-            "source": str(path.relative_to(args.root)),
-        }
-        rows.append(row)
-
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with output.open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=rows[0].keys())
+        rows.append(
+            {
+                "source_file": str(path),
+                **{f"alpha_{i}": alpha for i, alpha in enumerate(alphas, 1)},
+                "1+3alpha_1": 1 + 3 * alphas[0],
+                "1+4alpha_1+alpha_2": 1 + 4 * alphas[0] + alphas[1],
+                "1+3alpha_2+3alpha_4+alpha_6": 1
+                + 3 * alphas[1]
+                + 3 * alphas[3]
+                + alphas[5],
+            }
+        )
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    with args.output.open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=rows[0])
         writer.writeheader()
         writer.writerows(rows)
-    print(f"Wrote {len(rows)} rows to {output}")
+    print(f"Wrote {args.output}")
 
 
 if __name__ == "__main__":
