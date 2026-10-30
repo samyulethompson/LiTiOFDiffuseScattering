@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Figure 3: interaction mixing sweep and local environments.
+"""Figure 3: neutron scattering and local environments.
 
 Run with: python plot.py
 """
@@ -18,7 +18,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 OUTPUT = ROOT / "output"
-OUTPUT_STEM = OUTPUT / "mixing_sweep_0p2eV_100_plane"
+OUTPUT_STEM = OUTPUT / "mixing_sweep_0p2eV_100_plane_neutron"
 
 LOCAL_ENVIRONMENT_CSV = DATA / "local_environment_counts.csv"
 

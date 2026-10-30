@@ -6,7 +6,7 @@ Each figure folder contains one standalone `plot.py` and a `data/` directory wit
 | --- | --- | --- |
 | 1 — Experimental overview | [plot.py](figure_1/plot.py) | [data/](figure_1/data/) |
 | 2 — Model, scattering and PDF comparisons | [plot.py](figure_2/plot.py) | [data/](figure_2/data/) |
-| 3 — Interaction mixing sweep | [plot.py](figure_3/plot.py) | [data/](figure_3/data/) |
+| 3 — Interaction mixing sweep (neutron scattering) | [plot.py](figure_3/plot.py) | [data/](figure_3/data/) |
 | 4 — 0-TM ensemble populations | [plot.py](figure_4/plot.py) | [data/](figure_4/data/) |
 
 ## Reproduce
@@ -43,9 +43,15 @@ The data folder includes the schematic, three PDF fit tables, experimental ΔPDF
 
 ![Figure 3](figure_3.png)
 
-Eleven [100] scattering surfaces at λ = 0, 0.1, …, 1 for J1 + J2 = 0.2 eV and 1000 K, with local-environment distributions at λ = 0, 0.5, 1.
+Eleven calculated coherent nuclear neutron diffuse-scattering surfaces at λ = 0, 0.1, …, 1, with local-environment distributions at λ = 0, 0.5, 1. The MC models use J1 + J2 = 0.20 eV at 1000 K. The Q-independent neutron scattering lengths show the occupational correlations without atomic form-factor attenuation.
 
-The data folder contains `scattering_lambda_*.txt`, `local_environment_counts.csv`, and all eleven `structure_lambda_*.cif` crystal structures, matched by λ. The CIFs are the exact final snapshot 99 files identified by the local-environment analysis. All Figure 3 data use J1 + J2 = 0.2 eV; the environment-count CSV contains only this total strength. Numbers in the `lambda_*` filenames denote the mixing fraction λ = J2/(J1 + J2), rather than the total interaction strength. Each scattering panel selects h = 0 and 0 ≤ k,l ≤ 2 and is independently normalized at the 99.5th percentile. The reference curves use a normal approximation to the fixed-composition random fractions in the CSV. The input workflow calls the transition-metal species Fe; the figure labels it M.
+Scatty (version dated 14 October 2022) uses `RADIATION N`, the tabulated scattering lengths for the original Li, Fe, and O species, cubic `m3m` Laue symmetry, Lanczos window length 2, and F-centring Bragg removal. Each scattering average uses 99 configurations sampled from a single seeded MC trajectory. The `(0kl)` section covers 0 ≤ k,l ≤ 2 in steps of 0.02 r.l.u. (101 × 101 points). These are calculated neutron intensities; the electron-scattering calculations used for comparisons with experimental data are described separately.
+
+The data folder contains `scattering_lambda_*.txt`, `local_environment_counts.csv`, all eleven `structure_lambda_*.cif` crystal structures, and `scatty_config.txt`. The CIFs are the exact final snapshot 99 files identified by the local-environment analysis. All data belong to the 0.20 eV sweep. Numbers in the `lambda_*` filenames denote the mixing fraction λ = J2/(J1 + J2).
+
+The `mc_lambda_*.npz` files retain the complete sampled occupational configurations: one bit per cation (`1=Fe`, `0=Li`, `bitorder="little"`), with `n_cations`, sampling steps, seed, interactions, and temperature recorded. Unpack each row of `occupations` and trim it to `n_cations`. Rows 0–99 correspond to MC steps `1000001 + 10101*i`; Scatty reads input files 01–99, so rows 1–99 enter the scattering average. The seed is 7 for each mixing fraction.
+
+Each scattering panel is independently normalized at its 99.5th percentile. The local-environment distributions are unchanged; their black reference curves use a normal approximation to the fixed-composition random fractions in the CSV. The input species is Fe and the figure labels it M.
 
 ## Figure 4
 
@@ -60,3 +66,5 @@ The data folder also retains all 200 crystal structures: `model_configurations.e
 ## Validation
 
 All four standalone scripts were checked against the reference PNGs on 30 October 2026 using Python 3.10.19 and the package versions in `requirements.txt`. All regenerated PNGs have identical pixels to their article references. PNG, PDF, and SVG exports complete successfully. Exact PNG matching can depend on installed fonts and plotting-library versions.
+
+For the neutron update to Figure 3, each seeded MC trajectory was reconstructed and checked against all 2,001 archived energy-log points and both retained snapshots. Recalculated X-ray intensities matched the original Figure 3 data exactly for all eleven mixing fractions before the neutron calculation was accepted. The neutron plotting script reproduces the updated reference PNG pixel for pixel.
