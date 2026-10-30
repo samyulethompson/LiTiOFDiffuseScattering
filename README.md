@@ -2,7 +2,7 @@
 
 Code and data supporting the associated paper.
 
-The four main article figures, including plotting scripts and all required plotting data, are documented in [figures/](figures/README.md). Each figure has a self-contained bundle, reference artwork, provenance checksums, and a reproduction command.
+The four main article figures are documented in [figures/](figures/README.md). Each figure folder contains one standalone plotting script and its input data.
 
 - [Figure 1: experimental overview](figures/figure_1/)
 - [Figure 2: model, scattering and PDF comparisons](figures/figure_2/)
