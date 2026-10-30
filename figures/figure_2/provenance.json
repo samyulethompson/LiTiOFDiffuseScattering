@@ -1,0 +1,109 @@
+[
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/model_pdf_combined_2/model_pdf_71_01_combined.png",
+    "bundled": "reference/model_pdf_71_01_combined.png",
+    "sha256": "54d768ace904a42dba20914423f2b7d9f6f7fb80b0366a38964fb7807830df4e",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/model_pdf_combined_2/model_pdf_71_01_combined.pdf",
+    "bundled": "reference/model_pdf_71_01_combined.pdf",
+    "sha256": "6a18b9dbd32458a033b1c7df97ff5096d78027de4c02e462e5d1a134d3981c32",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/model_pdf_combined_2/model_pdf_71_01_combined.svg",
+    "bundled": "reference/model_pdf_71_01_combined.svg",
+    "sha256": "f8ed51659c361101382f27fd7986e1c4901ce0ae35df4257506992e8d4a38474",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/model_pdf_combined_2/plot_model_pdf_71_01_combined.py",
+    "bundled": "source/LiTiOF graphing/model_pdf_combined_2/plot_model_pdf_71_01_combined.py",
+    "sha256": "641485f78406c31ce60cc411e140b939ecf6979791dfe52bac86a8da48a83523",
+    "operation": "copy with portable input paths / lossless NPZ loader",
+    "source_sha256": "737111e1067a534f35c64f6bdda1744a287b5db5d2c3e41a338ce1e62889e22e"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/model_pdf_combined_2/plot_model_pdf_combined.py",
+    "bundled": "source/LiTiOF graphing/model_pdf_combined_2/plot_model_pdf_combined.py",
+    "sha256": "7218f4663e2616e6affad3be39756d760e3e831b252cea445e73efad15d82d60",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/model_pdf_combined_2/model_schematic2.png",
+    "bundled": "source/LiTiOF graphing/model_pdf_combined_2/model_schematic2.png",
+    "sha256": "886c00f37e1778b14751204c2cce704c0ebc646b435528f4f050d037104117bf",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/model_pdf_combined_2/LiTiOF_avg_PDF_model.txt",
+    "bundled": "source/LiTiOF graphing/model_pdf_combined_2/LiTiOF_avg_PDF_model.txt",
+    "sha256": "d4802fe0d3dae726b5fe6377c00feef16a1cf5396a52a5ce36cc139c12a0068e",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/model_pdf_combined_2/LiTiOF_occ_only_PDF_model.txt",
+    "bundled": "source/LiTiOF graphing/model_pdf_combined_2/LiTiOF_occ_only_PDF_model.txt",
+    "sha256": "8dfd929def238569f6738fc891f23c20172097fba9cbb548b4c3b83d48034b68",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/model_pdf_combined_2/LiTiOF_occ_disp_PDF_model.txt",
+    "bundled": "source/LiTiOF graphing/model_pdf_combined_2/LiTiOF_occ_disp_PDF_model.txt",
+    "sha256": "9adfdbbd628ddb96900370af4cb2364f1fedbad60879d1a66b68c7788c744521",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/model_pdf_combined_2/model_pdf_71_01_combined_metadata.txt",
+    "bundled": "source/LiTiOF graphing/model_pdf_combined_2/model_pdf_71_01_combined_metadata.txt",
+    "sha256": "963d22860d7b05adb8c5134c23ba841f645a81f8510aafe6db32f952f8493185",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/final_model_71_01/plot_final_model_71_01.py",
+    "bundled": "source/LiTiOF graphing/final_model_71_01/plot_final_model_71_01.py",
+    "sha256": "176a89d04024411a3699946a297b7717508f47434d40f434bc85fb3429777141",
+    "operation": "copy with portable input paths / lossless NPZ loader",
+    "source_sha256": "0065e7301bbb84613ce9a0f85e6023cb3ee0ced623adf8934bc6407709773ffa"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/final_model_61_02/plot_final_model_61_02.py",
+    "bundled": "source/LiTiOF graphing/final_model_61_02/plot_final_model_61_02.py",
+    "sha256": "8ddbe03cc2ffdf0680fc4ecb338fbd661cb952214a20473942d2ee96490ea153",
+    "operation": "copy with portable input paths / lossless NPZ loader",
+    "source_sha256": "7e9ae1ed84d2dd340e44d739f04c55fe81f6cddc2419b9cec535114c05660d87"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LTiOF_dataset/scattering_planes_positive_greyscale/scattering_planes_positive_2d_arrays.h5",
+    "bundled": "source/LTiOF_dataset/scattering_planes_positive_greyscale/scattering_planes_positive_2d_arrays.h5",
+    "sha256": "70f339493aafe5d08abea4cec694951ec7b4aeb6a53490511761e8eaf286282c",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LTiOF_dataset/3ddpdf_xy_slices_30uc_scale/3ddpdf_xy_slices_30uc_scale_2d_arrays.h5",
+    "bundled": "source/LTiOF_dataset/3ddpdf_xy_slices_30uc_scale/3ddpdf_xy_slices_30uc_scale_2d_arrays.h5",
+    "sha256": "14eea9272c4cf00c63a435d0fc9a620cffe2a62fbfa3b215fd8ba1fe6a96aef1",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/3d-deltaPDF_informed/run71/01_run61_02_displacements/direct_axis_lattice_units.txt",
+    "bundled": "source/3d-deltaPDF_informed/run71/01_run61_02_displacements/direct_axis_lattice_units.txt",
+    "sha256": "7ef9b880221337e32f4d0f2655896895a4fdde8eab1332375a4147edbc20c760",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/3d-deltaPDF_informed/run71/01_run61_02_displacements/3dpdf_volume.npy",
+    "source_sha256": "e89b94f2be83a8c45092bec0a3269b916337576cf8a48fdc5dfe9443a510e422",
+    "bundled": "source/3d-deltaPDF_informed/run71/01_run61_02_displacements/3dpdf_volume.npz",
+    "sha256": "3a7db12ad6451ecc75960f3250a6ebe9e6fb1f98af4e958b243e66588212b640",
+    "operation": "lossless np.savez_compressed; array key=volume; all volume voxels"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/3d-deltaPDF_informed/run71/01_run61_02_displacements/scatty_structures/rocks_run71_01_run61_02_displacements_kbt1_q10_exp20_bragg_removed_hk0_sc_list.txt",
+    "source_sha256": "84a87d8af853e84073bb9cb9af8a7f71a92368198ee8b0321173b79d64fd78d4",
+    "bundled": "source/3d-deltaPDF_informed/run71/01_run61_02_displacements/scatty_structures/rocks_run71_01_run61_02_displacements_kbt1_q10_exp20_bragg_removed_hk0_sc_list.npz",
+    "sha256": "df037bfc2ae1dc2c8fff017da3a0caf7060554d067f214a95e478e128933d745",
+    "operation": "lossless np.savez_compressed; column keys=h,k,l,intensity; all rows of columns 0,1,2,3 as loaded by original plot"
+  }
+]

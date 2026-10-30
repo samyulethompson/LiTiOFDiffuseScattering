@@ -2,7 +2,12 @@
 
 Code and data supporting the associated paper.
 
-Repository contents are being curated from the existing 3D-ΔPDF work.
+The four main article figures, including plotting scripts and all required plotting data, are documented in [figures/](figures/README.md). Each figure has a self-contained bundle, reference artwork, provenance checksums, and a reproduction command.
+
+- [Figure 1: experimental overview](figures/figure_1/)
+- [Figure 2: model, scattering and PDF comparisons](figures/figure_2/)
+- [Figure 3: interaction mixing sweep](figures/figure_3/)
+- [Figure 4: 0-TM ensemble populations](figures/figure_4/)
 
 ## Scripts
 

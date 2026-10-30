@@ -28,3 +28,8 @@ slurm-*.out
 # Local scratch and generated results
 scratch/
 results/
+
+# Article plotting bundles intentionally include numerical plotting inputs.
+!figures/**/source/**/*.h5
+!figures/**/source/**/*.npy
+figures/figure_*/output/

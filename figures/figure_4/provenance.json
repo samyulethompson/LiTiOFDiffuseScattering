@@ -1,0 +1,51 @@
+[
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/run81_0tm_ensemble/run81_0tm_natcommun_ensemble_panel_a_no_label.png",
+    "bundled": "reference/run81_0tm_natcommun_ensemble_panel_a_no_label.png",
+    "sha256": "f7fb0bfb9291e72c298bc3d78da830745560d8730476c3ab95dbdd6ed2aa9266",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/run81_0tm_ensemble/run81_0tm_natcommun_ensemble_panel_a_no_label.pdf",
+    "bundled": "reference/run81_0tm_natcommun_ensemble_panel_a_no_label.pdf",
+    "sha256": "9cfd42feb827cce2f4ff41183da147ad8332485e6b5e61211840325b07987e22",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/run81_0tm_ensemble/run81_0tm_natcommun_ensemble_panel_a_no_label.svg",
+    "bundled": "reference/run81_0tm_natcommun_ensemble_panel_a_no_label.svg",
+    "sha256": "3c4e2a5647bb66ca802cbb5570df1df9d265ce2f1db4589b094e87867ddb2923",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/run81_0tm_ensemble/make_run81_0tm_natcommun_panel_a.py",
+    "bundled": "source/LiTiOF graphing/run81_0tm_ensemble/make_run81_0tm_natcommun_panel_a.py",
+    "sha256": "cd46a482838cae07e224d703e3097eafd778c0b4b7fc8007ff499bce814009d6",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/run81_0tm_ensemble/make_run81_0tm_natcommun.py",
+    "bundled": "source/LiTiOF graphing/run81_0tm_ensemble/make_run81_0tm_natcommun.py",
+    "sha256": "72056f39ec9e02afa91b74129f548c4e4e939fade5ead611016a2e4005e3e47a",
+    "operation": "copy with portable input paths / lossless NPZ loader",
+    "source_sha256": "069884eeb0bf0ff7b6a1df1edfb7760c34c50ba2e571c042548baf7f5f836f38"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/3d-deltaPDF_informed/run81/ensemble_summary.csv",
+    "bundled": "source/3d-deltaPDF_informed/run81/ensemble_summary.csv",
+    "sha256": "a98f252b7f768c03a98035d100fd1953f3f8eed84c43357ef106a2d72553071c",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/run81_0tm_ensemble/run81_0tm_natcommun_ensemble_tm_populations.csv",
+    "bundled": "source/LiTiOF graphing/run81_0tm_ensemble/run81_0tm_natcommun_ensemble_tm_populations.csv",
+    "sha256": "44b3f2edb15b7644f29fa5fe627b6d7dc6ded99c10f6211cf3ba6138901a5b9c",
+    "operation": "copy"
+  },
+  {
+    "source": "/home/samyt/pair_interaction/LiTiOF graphing/run81_0tm_ensemble/run81_0tm_natcommun_ensemble_caption.txt",
+    "bundled": "source/LiTiOF graphing/run81_0tm_ensemble/run81_0tm_natcommun_ensemble_caption.txt",
+    "sha256": "46ab4ddceeb6d97c0a406b4ea64e17d5a8f204934bc4270775962631a4871bc5",
+    "operation": "copy"
+  }
+]
