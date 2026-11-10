@@ -28,14 +28,14 @@ python scripts/analyze_lifeo2_local_environments.py \
   figures/figure_3/data/structure_lambda_*.cif --output results/local_environment_counts.csv
 ```
 
-## [analyze_0tm_connectivity.py](analyze_0tm_connectivity.py)
+## [count_0tm_sites.py](count_0tm_sites.py)
 
-Calculates tetrahedral populations and local 0-TM connectivity against fixed-composition random controls.
+Counts tetrahedral sites whose four neighbouring cations are all Li and exports their count and fraction.
 
 ```bash
-python scripts/analyze_0tm_connectivity.py \
+python scripts/count_0tm_sites.py \
   figures/figure_4/data/model_configurations.extxyz.gz \
-  --frame 0 --random-samples 100 --output-dir results/0tm_example
+  --frame 0 --output results/0tm_counts.csv
 ```
 
 ## [analyze_0tm_percolation.py](analyze_0tm_percolation.py)

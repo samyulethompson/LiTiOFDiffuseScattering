@@ -15,7 +15,7 @@ import numpy as np
 from numba import njit, prange, set_num_threads, config
 from scipy.stats import t as student_t
 
-from analyze_0tm_connectivity import cation_and_tetrahedron_tables
+from count_0tm_sites import cation_and_tetrahedron_tables
 from analyze_0tm_percolation import iter_configurations, tetra_dsu, write_rows
 
 

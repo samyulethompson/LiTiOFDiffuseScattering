@@ -13,7 +13,7 @@ from itertools import combinations
 from pathlib import Path
 
 import numpy as np
-from analyze_0tm_connectivity import cation_and_tetrahedron_tables, read_occupations
+from count_0tm_sites import cation_and_tetrahedron_tables, read_occupations
 
 
 class PeriodicDSU:

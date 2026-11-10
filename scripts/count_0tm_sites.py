@@ -1,16 +1,10 @@
 #!/usr/bin/env python3
-"""Calculate tetrahedral populations and local 0-TM connectivity in Li/Ti rocksalt.
-
-A tetrahedral site is 0-TM when all four neighbouring cations are Li.
-Connectivity is the number of 0-TM sites among its six edge-sharing neighbours.
-This local degree does not determine network percolation or tortuosity.
-"""
+"""Count all-Li (0-TM) tetrahedral sites in a Li/Ti rocksalt structure."""
 
 from __future__ import annotations
 
 import argparse
 import csv
-from math import comb
 from pathlib import Path
 
 import numpy as np
@@ -81,27 +75,6 @@ def cation_and_tetrahedron_tables(nrep: int) -> tuple[np.ndarray, np.ndarray]:
     return lookup, tetra_to_cation
 
 
-def zero_tm_and_degree(
-    is_ti: np.ndarray, tetra_to_cation: np.ndarray, period: int
-) -> tuple[np.ndarray, np.ndarray]:
-    """Return the 0-TM mask and number of neighboring 0-TM sites."""
-    zero_tm = ~np.any(is_ti[tetra_to_cation], axis=1)
-    cube = zero_tm.reshape(period, period, period)
-    degree_cube = np.zeros_like(cube, dtype=np.int8)
-    for axis in range(3):
-        degree_cube += np.roll(cube, 1, axis=axis)
-        degree_cube += np.roll(cube, -1, axis=axis)
-    return zero_tm, degree_cube.ravel()[zero_tm]
-
-
-def tm_populations(
-    is_ti: np.ndarray, tetra_to_cation: np.ndarray
-) -> tuple[np.ndarray, np.ndarray]:
-    tm_per_tetra = np.count_nonzero(is_ti[tetra_to_cation], axis=1)
-    counts = np.bincount(tm_per_tetra, minlength=5)
-    return counts, counts / len(tm_per_tetra)
-
-
 def read_occupations(path: Path, frame: int) -> tuple[np.ndarray, int]:
     atoms = read_structure(path, frame)
     symbols = np.asarray(atoms.get_chemical_symbols())
@@ -129,17 +102,9 @@ def read_occupations(path: Path, frame: int) -> tuple[np.ndarray, int]:
     return is_ti, nrep
 
 
-def degree_distribution(zero_tm: np.ndarray, degree: np.ndarray) -> np.ndarray:
-    if not zero_tm.any():
-        return np.full(7, np.nan)
-    return np.bincount(degree, minlength=7) / zero_tm.sum()
-
-
-def write_csv(path: Path, columns: list[str], rows) -> None:
-    with path.open("w", newline="") as handle:
-        writer = csv.writer(handle)
-        writer.writerow(columns)
-        writer.writerows(rows)
+def count_zero_tm_sites(is_ti: np.ndarray, tetra_to_cation: np.ndarray) -> int:
+    """A tetrahedron is 0-TM when none of its four cation sites contains Ti."""
+    return int(np.count_nonzero(~np.any(is_ti[tetra_to_cation], axis=1)))
 
 
 def main() -> None:
@@ -152,69 +117,31 @@ def main() -> None:
     parser.add_argument(
         "--frame", type=int, default=0, help="Frame index in a multi-frame trajectory."
     )
-    parser.add_argument("--output-dir", type=Path, default=Path("results/0tm"))
-    parser.add_argument("--random-samples", type=int, default=1000)
-    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--output", type=Path, default=Path("results/0tm_counts.csv"))
     args = parser.parse_args()
-    if args.random_samples < 1:
-        parser.error("--random-samples must be at least 1.")
     is_ti, nrep = read_occupations(args.structure, args.frame)
-    n_cations = len(is_ti)
-    n_ti = int(is_ti.sum())
-    n_li = n_cations - n_ti
     _, tetra_to_cation = cation_and_tetrahedron_tables(nrep)
-    _, model_populations = tm_populations(is_ti, tetra_to_cation)
-    model_zero, model_degree = zero_tm_and_degree(is_ti, tetra_to_cation, 2 * nrep)
-    model_distribution = degree_distribution(model_zero, model_degree)
-    random_populations = [
-        comb(n_ti, k) * comb(n_li, 4 - k) / comb(n_cations, 4) for k in range(5)
-    ]
-    rng = np.random.default_rng(args.seed)
-    random_distributions = []
-    random_degrees = []
-    for _ in range(args.random_samples):
-        zero_tm, degree = zero_tm_and_degree(
-            rng.permutation(is_ti), tetra_to_cation, 2 * nrep
-        )
-        random_distributions.append(degree_distribution(zero_tm, degree))
-        random_degrees.append(degree.mean() if degree.size else float("nan"))
-    random_mean = np.mean(random_distributions, axis=0)
-    args.output_dir.mkdir(parents=True, exist_ok=True)
-    write_csv(
-        args.output_dir / "tm_populations.csv",
-        ["tm_neighbors", "model_fraction", "random_expected_fraction"],
-        ([k, model_populations[k], random_populations[k]] for k in range(5)),
+    n_tetrahedra = len(tetra_to_cation)
+    count = count_zero_tm_sites(is_ti, tetra_to_cation)
+    row = {
+        "source_file": str(args.structure),
+        "frame": args.frame,
+        "n_cations": len(is_ti),
+        "n_li": int(np.count_nonzero(~is_ti)),
+        "n_ti": int(np.count_nonzero(is_ti)),
+        "n_tetrahedral_sites": n_tetrahedra,
+        "n_zero_tm_sites": count,
+        "zero_tm_fraction": count / n_tetrahedra,
+    }
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    with args.output.open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(row))
+        writer.writeheader()
+        writer.writerow(row)
+    print(
+        f"0-TM tetrahedral sites: {count}/{n_tetrahedra} ({row['zero_tm_fraction']:.6f})"
     )
-    write_csv(
-        args.output_dir / "connectivity.csv",
-        [
-            "zero_tm_neighbors",
-            "model_fraction_of_zero_tm_sites",
-            "random_mean_fraction",
-        ],
-        ([k, model_distribution[k], random_mean[k]] for k in range(7)),
-    )
-    write_csv(
-        args.output_dir / "summary.csv",
-        ["parameter", "value"],
-        [
-            ["source_file", str(args.structure)],
-            ["frame", args.frame],
-            ["n_cations", n_cations],
-            ["n_ti", n_ti],
-            ["n_li", n_li],
-            ["n_tetrahedral_sites", len(tetra_to_cation)],
-            ["n_zero_tm_sites", int(model_zero.sum())],
-            [
-                "model_mean_zero_tm_degree",
-                model_degree.mean() if model_degree.size else float("nan"),
-            ],
-            ["random_mean_zero_tm_degree", np.mean(random_degrees)],
-            ["random_samples", args.random_samples],
-            ["random_seed", args.seed],
-        ],
-    )
-    print(f"Wrote population, connectivity, and summary CSVs to {args.output_dir}")
+    print(f"Wrote {args.output}")
 
 
 if __name__ == "__main__":
