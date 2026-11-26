@@ -1,0 +1,2 @@
+source_file,frame,n_cations,n_li,n_ti,n_tetrahedral_sites,n_zero_tm_sites,zero_tm_fraction
+examples/demo/dummy_cell.extxyz.gz,0,37044,26460,10584,74088,23717,0.32011931756829715

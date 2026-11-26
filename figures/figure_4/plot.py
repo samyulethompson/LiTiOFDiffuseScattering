@@ -46,7 +46,7 @@ def values(
 def main() -> None:
     summary = load_summary()
     tm_metrics = [f"tm{k}_fraction" for k in range(5)]
-    model_tm, model_tm_sd = values(summary, "run71_mc", tm_metrics)
+    model_tm, model_tm_sd = values(summary, "model_mc", tm_metrics)
     random_tm, random_tm_sd = values(summary, "random", tm_metrics)
     mpl.rcParams.update(
         {

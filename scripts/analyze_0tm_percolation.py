@@ -185,7 +185,7 @@ def iter_configurations(path: Path, max_configs: int | None = None, frame: int =
             raise ValueError("Packed occupations must be nonempty uint8 arrays.")
         count = len(mc) if max_configs is None else min(max_configs, len(mc))
         for index in range(count):
-            for kind, packed in (("run71_mc", mc[index]), ("random", random[index])):
+            for kind, packed in (("model_mc", mc[index]), ("random", random[index])):
                 is_ti = np.unpackbits(packed, bitorder="little")[:n_cations].astype(
                     bool
                 )

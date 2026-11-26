@@ -58,7 +58,7 @@ def pxrd_load_bragg_positions(path: Path, x_min: float, x_max: float) -> np.ndar
 
 SCATTERING_SOURCE = DATA / "scattering_planes_positive_2d_arrays.h5"
 
-SCATTERING_DIFFRACTION_STRIP = DATA / "image.png"
+SCATTERING_DIFFRACTION_STRIP = DATA / "zone_axes.png"
 
 SCATTERING_DISPLAY_LIMIT_RLU = 6.0
 
@@ -148,7 +148,7 @@ def scattering_load_diffraction_panels() -> dict[str, np.ndarray]:
     return panels
 
 
-ZONE110_DIFFRACTION_STRIP = DATA / "image.png"
+ZONE110_DIFFRACTION_STRIP = DATA / "zone_axes.png"
 
 ZONE110_CENTER_XY = (239, 234)
 

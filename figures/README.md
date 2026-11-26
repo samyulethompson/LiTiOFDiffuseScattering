@@ -57,7 +57,7 @@ Each scattering panel is independently normalized at its 99.5th percentile. The 
 
 ![Figure 4](figure_4.png)
 
-Tetrahedral-site populations for 100 Run-71 model configurations and 100 random controls. The input is `ensemble_summary.csv`. Bars show means of `tm0_fraction` through `tm4_fraction`; error bars show sample standard deviations across configurations.
+Tetrahedral-site populations for 100 model configurations and 100 random controls. The input is `ensemble_summary.csv`. Bars show means of `tm0_fraction` through `tm4_fraction`; error bars show sample standard deviations across configurations.
 
 The data folder also retains all 200 crystal structures: `model_configurations.extxyz.gz` contains the 100 model configurations and `random_configurations.extxyz.gz` contains the 100 random controls. Each frame includes its configuration index, seed, atomic species, positions, and periodic cell (21 × 21 × 21 conventional cells; lattice constant 4.1 Å). These compressed extended-XYZ files can be opened directly with ASE. The model trajectory is a lossless compressed copy of the source file; random-control structures use the exact saved occupations on the same ideal rocksalt lattice.
 

@@ -2,7 +2,7 @@
 """Fixed-composition Li/Ti Monte Carlo and the pair-based displacement model.
 
 H/(k_B T) = K1 * N_TiTi(first shell) + K2 * N_TiTi(second shell).
-The defaults are the Run 71 parameters; all energy coefficients are reduced.
+The defaults reproduce the supplied example cell; all energy coefficients are reduced.
 """
 
 from __future__ import annotations

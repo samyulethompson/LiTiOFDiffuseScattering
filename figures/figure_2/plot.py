@@ -20,13 +20,13 @@ from scipy.interpolate import RegularGridInterpolator, griddata
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 OUTPUT = ROOT / "output"
-OUTPUT_STEM = OUTPUT / "model_pdf_71_01_combined"
+OUTPUT_STEM = OUTPUT / "model_pdf_combined"
 
 MODEL_ROOT = DATA
 
 MODEL_SCATTERING = (
     DATA
-    / "rocks_run71_01_run61_02_displacements_kbt1_q10_exp20_bragg_removed_hk0_sc_list.npz"
+    / "model_scattering.npz"
 )
 
 EXPERIMENT_3DPDF = DATA / "3ddpdf_xy_slices_30uc_scale_2d_arrays.h5"

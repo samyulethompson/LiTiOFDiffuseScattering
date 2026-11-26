@@ -1,0 +1,8 @@
+Dataset: displaced Li/Ti/O model supercell used for Figure 2.
+Repository file: examples/demo/dummy_cell.extxyz.gz
+Encoding: gzip-compressed original extended-XYZ bytes; no coordinate or species changes.
+SHA256 of the uncompressed original file:
+147e91d9087b0ef58876354104982ee02da4c9ac3de4c53c717e135cac973940
+Expected analysis: examples/demo/expected_0tm_counts.csv
+Command (from repository root):
+python scripts/count_0tm_sites.py examples/demo/dummy_cell.extxyz.gz --output results/demo/0tm_counts.csv

@@ -34,7 +34,7 @@ Counts tetrahedral sites whose four neighbouring cations are all Li and exports 
 
 ```bash
 python scripts/count_0tm_sites.py \
-  figures/figure_4/data/model_configurations.extxyz.gz \
+  examples/demo/dummy_cell.extxyz.gz \
   --frame 0 --output results/0tm_counts.csv
 ```
 
@@ -44,8 +44,8 @@ Calculates periodic wrapping and accessible fractions for the 0-TM tetrahedral a
 
 ```bash
 python scripts/analyze_0tm_percolation.py \
-  figures/figure_4/data/configurations_bitpacked.npz \
-  --max-configs 1 --output-dir results/percolation_example
+  examples/demo/dummy_cell.extxyz.gz \
+  --output-dir results/percolation_example
 ```
 
 ## [analyze_0tm_tortuosity.py](analyze_0tm_tortuosity.py)
@@ -54,7 +54,7 @@ Calculates relative microscopic tortuosity from shortest periodic-return paths o
 
 ```bash
 python scripts/analyze_0tm_tortuosity.py \
-  figures/figure_4/data/configurations_bitpacked.npz \
-  --max-configs 1 --sites-per-config 4096 --seed 81 --workers 4 \
+  examples/demo/dummy_cell.extxyz.gz \
+  --sites-per-config 4096 --seed 81 --workers 4 \
   --output-dir results/tortuosity_example
 ```
