@@ -127,3 +127,7 @@ Each command writes CSV results to the requested location. Use `--help` for opti
 
 To use your own data, replace `examples/demo/dummy_cell.extxyz.gz` with your own
 periodic cubic Li/Ti/O rocksalt supercell in extended-XYZ or explicit P1 CIF format.
+
+## License
+
+The source code is distributed under the [MIT License](LICENSE).
